@@ -28,9 +28,14 @@ public class JwtFilter implements GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
 
+        // 디버깅 로그 추가
+//        log.info("🔍 요청 URI: {}", path);
         // 요청 URI 검사 (예외 처리할 엔드포인트)
         if (isExcludedPath(path)) {
+//            log.info("✅ 필터 예외 경로: {}", path);  // 추가된 로그
             return chain.filter(exchange);
+        } else {
+//            log.info("⛔ 필터 적용됨: {}", path);  // 추가된 로그
         }
 
         // Authorization 헤더에서 JWT 추출
@@ -58,8 +63,9 @@ public class JwtFilter implements GlobalFilter {
         Long userId = jwtUtil.getUserId(token);
         String nickname = jwtUtil.getNickName(token);
         String role = jwtUtil.getRole(token);
-        =
-
+//        log.info("userId : {}", userId);
+//        log.info("nickname : {}", nickname);
+//        log.info("role : {}", role);
         if (userId == null || nickname == null || role == null) {
             return onError(exchange, "Invalid token payload", HttpStatus.UNAUTHORIZED);
         }
@@ -85,7 +91,11 @@ public class JwtFilter implements GlobalFilter {
                 path.startsWith("/swagger-ui") ||
                 path.startsWith("/swagger-resources") ||
                 path.startsWith("/swagger-ui.html") ||
-                path.startsWith("/swagger-ui/index.html");
+                path.startsWith("/swagger-ui/index.html") ||
+                path.startsWith("/user/swagger-resources") ||
+                path.startsWith("/user/swagger-ui.html") ||
+                path.startsWith("/user/swagger-ui/index.html") ||
+                path.startsWith("/user/swagger-ui");
     }
 
     /** 에러 응답 처리 */
