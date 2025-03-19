@@ -5,6 +5,7 @@ server:
       charset: UTF-8
       force: true
       force-response: true
+
 spring:
   application:
     name: gateway-service
@@ -14,27 +15,24 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true  # Eureka에서 서비스 자동 탐색
-          lower-case-service-id: true  # 서비스 ID를 소문자로 변환
+          enabled: true
+          lower-case-service-id: true
       routes:
         - id: user-service
-          uri: lb://user-service # Eureka에서 login-server의 동적 주소를 찾음
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/auth/**
 
-        # (추가 라우트) user-service-swagger: Swagger UI 접근용
-        - id: user-service-swagger
-          uri: lb://user-service
-          predicates:
-            - Path=/user/swagger-ui/**
-          filters:
-            - name: RewritePath
-              args:
-                regexp: ^/user/(?<segment>.*)$
-                replacement: /${segment}
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: 유저 서비스
+        url: http://localhost:8000/user-service/v3/api-docs
+    use-root-path: true

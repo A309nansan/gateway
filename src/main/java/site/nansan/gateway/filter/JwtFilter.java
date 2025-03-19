@@ -29,13 +29,13 @@ public class JwtFilter implements GlobalFilter {
         String path = request.getURI().getPath();
 
         // 디버깅 로그 추가
-//        log.info("🔍 요청 URI: {}", path);
+        log.info("🔍 요청 URI: {}", path);
         // 요청 URI 검사 (예외 처리할 엔드포인트)
         if (isExcludedPath(path)) {
-//            log.info("✅ 필터 예외 경로: {}", path);  // 추가된 로그
+            log.info("✅ 필터 예외 경로: {}", path);  // 추가된 로그
             return chain.filter(exchange);
         } else {
-//            log.info("⛔ 필터 적용됨: {}", path);  // 추가된 로그
+            log.info("⛔ 필터 적용됨: {}", path);  // 추가된 로그
         }
 
         // Authorization 헤더에서 JWT 추출
@@ -63,9 +63,9 @@ public class JwtFilter implements GlobalFilter {
         Long userId = jwtUtil.getUserId(token);
         String nickname = jwtUtil.getNickName(token);
         String role = jwtUtil.getRole(token);
-//        log.info("userId : {}", userId);
-//        log.info("nickname : {}", nickname);
-//        log.info("role : {}", role);
+        log.info("userId : {}", userId);
+        log.info("nickname : {}", nickname);
+        log.info("role : {}", role);
         if (userId == null || nickname == null || role == null) {
             return onError(exchange, "Invalid token payload", HttpStatus.UNAUTHORIZED);
         }
@@ -82,7 +82,7 @@ public class JwtFilter implements GlobalFilter {
 
     /** 특정 경로는 필터를 거치지 않도록 설계 */
     private boolean isExcludedPath(String path) {
-        return path.matches("^/api/v\\d+/auth/login$") ||  // 정확한 로그인 경로 추가
+        return path.matches("^/api/v\\d+/auth/login$") ||
                 path.matches("^/api/v\\d+/auth/token$") ||
                 path.matches("^/api/v\\d+/auth/reissue$") ||
                 path.matches("^/api/v\\d+/auth/logout$") ||
