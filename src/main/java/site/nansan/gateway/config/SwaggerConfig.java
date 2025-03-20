@@ -11,21 +11,32 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-//@Configuration
+@Configuration
 public class SwaggerConfig {
 
-//    @Bean
+    @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
+                // Gateway 자체가 8000 포트에서 뜨므로, swagger-ui가 표시할 "Server" URL
                 .servers(List.of(
-                        new Server().url("http://localhost:8000").description("API Gateway")  // Gateway를 통해 모든 API 호출
+                        new Server()
+                                .url("http://localhost:8000")
+                                .description("API Gateway")
                 ))
-                .components(new Components().addSecuritySchemes("Bearer",
-                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+                .components(
+                        new Components().addSecuritySchemes("Bearer",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        )
+                )
                 .addSecurityItem(new SecurityRequirement().addList("Bearer"))
-                .info(new Info()
-                        .title("Nansan API Gateway")
-                        .description("API Gateway를 통한 전체 API 문서 제공")
-                        .version("v1"));
+                .info(
+                        new Info()
+                                .title("Nansan API Gateway")
+                                .description("API Gateway를 통한 전체 API 문서 제공")
+                                .version("v1")
+                );
     }
 }
