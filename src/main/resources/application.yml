@@ -8,7 +8,7 @@ server:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
   file:
     name: /app/log/gateway.log
 
