@@ -28,13 +28,13 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka:8761/eureka
 
 springdoc:
   swagger-ui:
     urls:
-      - name: API Gateway
-        url: http://localhost:8000/v3/api-docs
       - name: 유저 서비스
         url: http://localhost:8000/user-service/v3/api-docs
+      - name: 사칙연산 서비스
+        url: http://localhost:8000/m-service/v3/api-docs
     use-root-path: true
