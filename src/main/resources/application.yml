@@ -6,6 +6,12 @@ server:
       force: true
       force-response: true
 
+logging:
+  level:
+    root: DEBUG
+  file:
+    name: /app/log/gateway.log
+
 spring:
   application:
     name: gateway-service
