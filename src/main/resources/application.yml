@@ -24,10 +24,6 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/api/v1/auth/**
         - id: test-service
           uri: lb://test-service
           predicates:
@@ -43,10 +39,6 @@ eureka:
 springdoc:
   swagger-ui:
     urls:
-      - name: 유저 서비스
-        url: http://localhost:8000/user-service/v3/api-docs
-      - name: 사칙 연산 서비스
-        url: http://localhost:8000/m-service/v3/api-docs
       - name: 테스트 서비스
-        url: http://localhost:8000/test-service/v3/api-docs
+        url: https://nansan.site/api/v1/test/v3/api-docs
     use-root-path: true
