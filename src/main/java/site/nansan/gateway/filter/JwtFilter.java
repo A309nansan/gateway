@@ -95,7 +95,10 @@ public class JwtFilter implements GlobalFilter {
                 path.startsWith("/user/swagger-resources") ||
                 path.startsWith("/user/swagger-ui.html") ||
                 path.startsWith("/user/swagger-ui/index.html") ||
-                path.startsWith("/user/swagger-ui");
+                path.startsWith("/user/swagger-ui") ||
+                path.matches("^/api/v\\d+/[a-zA-Z0-9-]+/v3/api-docs(?:\\.yaml)?$") ||   // JSON & YAML
+                path.matches("^/api/v\\d+/[a-zA-Z0-9-]+/swagger-ui(?:/.*)?$") ||        // swagger-ui 및 하위 경로
+                path.matches("^/api/v\\d+/[a-zA-Z0-9-]+/swagger-resources(?:/.*)?$");   // swagger-resources 및 하위 경로
     }
 
     /** 에러 응답 처리 */
