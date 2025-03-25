@@ -17,7 +17,6 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                // Gateway 자체가 8000 포트에서 뜨므로, swagger-ui가 표시할 "Server" URL
                 .servers(List.of(
                         new Server()
                                 .url("https://nansan.site/api/v1/test")

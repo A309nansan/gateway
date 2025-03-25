@@ -30,9 +30,10 @@ public class JwtFilter implements GlobalFilter {
 
         // 디버깅 로그 추가
         log.info("🔍 요청 URI: {}", path);
+
         // 요청 URI 검사 (예외 처리할 엔드포인트)
-        if (isExcludedPath(path)) {
-            log.info("✅ 필터 예외 경로: {}", path);  // 추가된 로그
+        if (isExcludedPath(path) || isSwaggerRequest(request)) {
+            log.info("✅ 필터 예외 경로 or Swagger 요청 경로: {}", path);  // 추가된 로그
             return chain.filter(exchange);
         } else {
             log.info("⛔ 필터 적용됨: {}", path);  // 추가된 로그
@@ -112,5 +113,18 @@ public class JwtFilter implements GlobalFilter {
 
         return response.writeWith(Mono.just(buffer));
     }
+
+    /**
+     * Swagger 요청 여부 확인 메서드
+     * Swagger UI에서 요청할 경우 Referer나 User-Agent에 "swagger-ui" 또는 "Swagger"가 포함
+     */
+    private boolean isSwaggerRequest(ServerHttpRequest request) {
+        String referer = request.getHeaders().getFirst("referer");
+        String userAgent = request.getHeaders().getFirst("user-agent");
+
+        return (referer != null && referer.contains("swagger-ui")) ||
+                (userAgent != null && userAgent.toLowerCase().contains("swagger"));
+    }
+
 
 }
