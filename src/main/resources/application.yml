@@ -24,10 +24,10 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: test-service
-          uri: lb://test-service
+        - id: user-service
+          uri: lb://user-service
           predicates:
-            - Path=/api/v1/test/**
+            - Path=/api/v1/user/**
 
 eureka:
   client:
@@ -39,6 +39,6 @@ eureka:
 springdoc:
   swagger-ui:
     urls:
-      - name: 테스트 서비스
-        url: https://nansan.site/api/v1/test/v3/api-docs
+      - name: 유저 서비스
+        url: https://nansan.site/api/v1/user/v3/api-docs
     use-root-path: true
