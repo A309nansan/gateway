@@ -83,10 +83,8 @@ public class JwtFilter implements GlobalFilter {
 
     /** 특정 경로는 필터를 거치지 않도록 설계 */
     private boolean isExcludedPath(String path) {
-        return path.matches("^/api/v\\d+/auth/login$") ||
-                path.matches("^/api/v\\d+/auth/token$") ||
-                path.matches("^/api/v\\d+/auth/reissue$") ||
-                path.matches("^/api/v\\d+/auth/logout$") ||
+        return path.matches("^/api/v\\d+/user/login$") ||
+                path.matches("^/api/v\\d+/user/reissue$") ||
                 path.startsWith("/v3/api-docs") ||
                 path.startsWith("/v3/api-docs.yaml") ||
                 path.startsWith("/swagger-ui") ||
