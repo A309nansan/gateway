@@ -32,6 +32,14 @@ spring:
           uri: lb://m-service
           predicates:
             - Path=/api/v1/m/**
+        - id: category-service
+          uri: lb://category-service
+          predicates:
+            - Path=/api/v1/category/**
+        - id: en-service
+          uri: lb://en-service
+          predicates:
+            - Path=/api/v1/en/**
 
 eureka:
   client:
@@ -47,4 +55,8 @@ springdoc:
         url: https://nansan.site/api/v1/user/v3/api-docs
       - name: BASA-M 서비스
         url: https://nansan.site/api/v1/m/v3/api-docs
+      - name: category 서비스
+        url: https://nansan.site/api/v1/category/v3/api-docs
+      - name: BASA-EN 서비스
+        url: https://nansan.site/api/v1/en/v3/api-docs
     use-root-path: true
