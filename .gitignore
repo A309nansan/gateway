@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 테스트 코드 제외 ###
+/src/test/
+**/src/test/
