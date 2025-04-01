@@ -51,11 +51,11 @@ eureka:
 springdoc:
   swagger-ui:
     urls:
-      - name: 유저 서비스
+      - name: User 서비스
         url: https://nansan.site/api/v1/user/v3/api-docs
       - name: BASA-M 서비스
         url: https://nansan.site/api/v1/m/v3/api-docs
-      - name: category 서비스
+      - name: Category 서비스
         url: https://nansan.site/api/v1/category/v3/api-docs
       - name: BASA-EN 서비스
         url: https://nansan.site/api/v1/en/v3/api-docs
