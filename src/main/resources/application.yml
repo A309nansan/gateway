@@ -34,12 +34,16 @@ spring:
             - Path=/api/v1/m/**
         - id: category-service
           uri: lb://category-service
-          predicates:
+          predicates:`
             - Path=/api/v1/category/**
         - id: en-service
           uri: lb://en-service
           predicates:
             - Path=/api/v1/en/**
+        - id: image-service
+          uri: lb://image-service
+          predicates:
+            - Path=/api/v1/image/**
 
 eureka:
   client:
