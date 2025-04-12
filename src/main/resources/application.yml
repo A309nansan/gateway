@@ -26,14 +26,14 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/api/v1/user/**
-        - id: m-service
-          uri: lb://m-service
-          predicates:
-            - Path=/api/v1/m/**
         - id: category-service
           uri: lb://category-service
           predicates:
             - Path=/api/v1/category/**
+        - id: m-service
+          uri: lb://m-service
+          predicates:
+            - Path=/api/v1/m/**
         - id: en-service
           uri: lb://en-service
           predicates:
@@ -55,12 +55,14 @@ springdoc:
     urls:
       - name: User 서비스
         url: https://nansan.site/api/v1/user/v3/api-docs
-      - name: BASA-M 서비스
-        url: https://nansan.site/api/v1/m/v3/api-docs
       - name: Category 서비스
         url: https://nansan.site/api/v1/category/v3/api-docs
+      - name: BASA-M 서비스
+        url: https://nansan.site/api/v1/m/v3/api-docs
       - name: BASA-EN 서비스
         url: https://nansan.site/api/v1/en/v3/api-docs
+      - name: Image Upload 서비스
+        url: https://nansan.site/api/v1/image/v3/api-docs
     use-root-path: true
 
 passport:
