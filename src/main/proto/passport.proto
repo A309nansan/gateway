@@ -1,0 +1,67 @@
+syntax = "proto3";
+package site.nansan.passport;
+
+// Passport 메시지에 User, Child, Device 정보와 HMAC 서명 값을 포함
+message Passport {
+
+  User user = 1;       // User 서비스에서 가져온 사용자 정보 전체
+
+  Child child = 2;     // Child 정보 (있을 경우)
+
+  Device device = 3;   // 요청한 단말기 등의 기기 정보
+
+  string hmac = 4;     // 전체 정보에 대한 HMAC 서명 값 (HMAC-SHA256 사용)
+}
+
+message User {
+
+  int64  id = 1;
+
+  string platformId = 2;
+
+  string socialPlatform = 3;
+
+  string email = 4;
+
+  string nickName = 5;
+
+  string role = 6;
+
+  bool   detailStatus = 7;
+
+  string hashId = 8;
+
+  string profileImageUrl = 9;
+}
+
+message Child {
+
+  int64  id = 1;
+
+  string name = 2;
+
+  string profileImageUrl = 3;
+
+  string birthDate = 4;
+
+  string grade = 5;
+
+  string gender = 6;
+}
+
+message Device {
+
+  string appName = 1;
+
+  string appVersion = 2;
+
+  string os = 3;
+
+  string device = 4;
+
+  string model = 5;
+
+  string locale = 6;
+
+  string network = 7;
+}

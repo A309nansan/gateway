@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.google.protobuf' version '0.9.5'
 }
 
 group = 'site.nansan'
@@ -28,6 +29,7 @@ dependencyManagement {
 }
 
 dependencies {
+
 	// Spring Cloud Gateway (WebFlux)
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64' // MacOS Silicon 라이브러리 누락 문제
@@ -39,11 +41,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// spring security dependencies
-	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
-	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
-	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
-
 	// Swagger dependencies
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0'
 
@@ -52,9 +49,43 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
 
+	implementation 'com.google.protobuf:protobuf-java:4.30.2'
+
+	protobuf files('com.google.protobuf:protoc:4.30.2')
+
 	// 기타
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+protobuf {
+
+	protoc {
+
+		// Protobuf 컴파일러 artifact 지정
+		// (Maven Central 레포에서 protoc 바이너리 가져옴)
+		artifact = "com.google.protobuf:protoc:4.30.2"
+	}
+
+	generateProtoTasks {
+		all().each { task ->
+			task.builtins {
+				java {
+					option 'lite' // 선택사항
+				}
+			}
+		}
+	}
+}
+
+sourceSets {
+	main {
+		proto {
+			// .proto 파일 경로
+			srcDirs = ['src/main/proto']
+		}
+		java {
+			// protobuf 컴파일 후 생기는 Java 파일 경로
+			srcDirs += ['build/generated/source/proto/main/java']
+		}
+	}
+}

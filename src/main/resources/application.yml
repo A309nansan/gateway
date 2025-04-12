@@ -15,8 +15,6 @@ logging:
 spring:
   application:
     name: gateway-service
-  jwt:
-    secret: ${JWT_SECRET_KEY}
   cloud:
     gateway:
       discovery:
@@ -60,3 +58,6 @@ springdoc:
       - name: BASA-EN 서비스
         url: https://nansan.site/api/v1/en/v3/api-docs
     use-root-path: true
+
+passport:
+  secret: ${hmacSecret}
