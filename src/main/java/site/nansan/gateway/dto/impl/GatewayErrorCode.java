@@ -1,8 +1,9 @@
-package site.nansan.gateway.dto;
+package site.nansan.gateway.dto.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import site.nansan.gateway.dto.ErrorCode;
 
 @Getter
 @AllArgsConstructor

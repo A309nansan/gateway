@@ -49,43 +49,6 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
 
-	implementation 'com.google.protobuf:protobuf-java:4.30.2'
-
-	protobuf files('com.google.protobuf:protoc:4.30.2')
-
 	// 기타
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-}
-
-protobuf {
-
-	protoc {
-
-		// Protobuf 컴파일러 artifact 지정
-		// (Maven Central 레포에서 protoc 바이너리 가져옴)
-		artifact = "com.google.protobuf:protoc:4.30.2"
-	}
-
-	generateProtoTasks {
-		all().each { task ->
-			task.builtins {
-				java {
-					option 'lite' // 선택사항
-				}
-			}
-		}
-	}
-}
-
-sourceSets {
-	main {
-		proto {
-			// .proto 파일 경로
-			srcDirs = ['src/main/proto']
-		}
-		java {
-			// protobuf 컴파일 후 생기는 Java 파일 경로
-			srcDirs += ['build/generated/source/proto/main/java']
-		}
-	}
 }

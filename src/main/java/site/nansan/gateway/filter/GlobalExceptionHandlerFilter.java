@@ -8,7 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import site.nansan.gateway.dto.GatewayErrorCode;
+import site.nansan.gateway.dto.impl.GatewayErrorCode;
 import site.nansan.gateway.exception.GatewayException;
 import site.nansan.gateway.exception.ExceptionHandler;
 

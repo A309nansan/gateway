@@ -8,14 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import reactor.core.publisher.Mono;
-import site.nansan.gateway.dto.GatewayErrorCode;
-import site.nansan.gateway.dto.JwtKey;
-import site.nansan.gateway.dto.RequestHeaderKey;
+import site.nansan.gateway.dto.impl.GatewayErrorCode;
+import site.nansan.gateway.dto.impl.JwtKey;
+import site.nansan.gateway.dto.impl.RequestHeaderKey;
 import site.nansan.gateway.exception.GatewayException;
-import site.nansan.gateway.dto.ExchangeKey;
+import site.nansan.gateway.dto.impl.ExchangeKey;
 import site.nansan.gateway.util.ExchangeUtil;
 import site.nansan.gateway.util.JwtUtil;
-import site.nansan.gateway.util.RequestHeaderUtil;
 
 import java.util.Optional;
 
@@ -31,7 +30,7 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        Boolean isAuthRequired = ExchangeUtil.getValue(exchange, ExchangeKey.IS_AUTH_REQUIRED);
+        Boolean isAuthRequired = ExchangeUtil.getAttribute(exchange, ExchangeKey.IS_AUTH_REQUIRED);
 
         if (Boolean.FALSE.equals(isAuthRequired)) {
             return chain.filter(exchange);
@@ -39,7 +38,7 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
 
         // JWT 존재 여부 확인
         String jwtWithBearer = (String) Optional.ofNullable(
-                RequestHeaderUtil.getValue(exchange, RequestHeaderKey.AUTHORIZATION)).orElseThrow(
+                ExchangeUtil.getRequestHeader(exchange, RequestHeaderKey.AUTHORIZATION)).orElseThrow(
                         () -> new GatewayException(GatewayErrorCode.JWT_VALIDATION_FAILED, "JWT가 존재하지 않습니다.")
                 );
 
@@ -57,8 +56,13 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
         log.debug("JWT 유효성 검증 성공");
 
         // JWT Claim 반환: Error 내부에서 처리
-        Long userId = jwtUtil.getClaimValue(accessToken, JwtKey.USER_ID);
-        ExchangeUtil.setValue(exchange, ExchangeKey.USER_ID, userId);
+        Long userId = jwtUtil.getClaimValue(accessToken, JwtKey.ID);
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.ID, userId);
+
+        String socialPlatform = jwtUtil.getClaimValue(accessToken, JwtKey.SOCIAL_PLATFORM);
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.SOCIAL_PLATFORM, socialPlatform);
+
+
 
         log.debug("요청받은 User Id: {}", userId);
 

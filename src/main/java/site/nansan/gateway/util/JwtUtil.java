@@ -6,8 +6,9 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SecurityException;
 import org.springframework.beans.factory.annotation.Value;
-import site.nansan.gateway.dto.GatewayErrorCode;
-import site.nansan.gateway.dto.JwtKey;
+import site.nansan.gateway.dto.Key;
+import site.nansan.gateway.dto.impl.GatewayErrorCode;
+import site.nansan.gateway.dto.impl.JwtKey;
 import site.nansan.gateway.exception.GatewayException;
 
 import javax.crypto.SecretKey;
@@ -39,7 +40,7 @@ public class JwtUtil {
         }
     }
 
-    public <T> T getClaimValue(String token, JwtKey key) {
+    public <T> T getClaimValue(String token, Key key) {
 
         try {
             return Jwts.parser().verifyWith(JWT_SECRET_KEY).build()
