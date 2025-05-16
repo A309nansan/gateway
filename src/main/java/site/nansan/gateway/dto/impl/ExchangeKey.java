@@ -8,15 +8,12 @@ import site.nansan.gateway.dto.Key;
 public enum ExchangeKey implements Key {
 
     IS_AUTH_REQUIRED("isAuthRequired", Boolean.class),
-    CHILD_ID("child_id", Long.class),
 
-    ID("id", Long.class),
-    SOCIAL_PLATFORM("social_platform", String.class),
+    USER_ID("user_id", Long.class),
     EMAIL("email", String.class),
     NICKNAME("nickname", String.class),
     ROLE("role", String.class),
-    SOURCE("source", String.class),
-    OS("os", String.class),
+    CHILD_ID("child_id", Long.class),
 
     ;
 

@@ -8,7 +8,6 @@ import io.jsonwebtoken.security.SecurityException;
 import org.springframework.beans.factory.annotation.Value;
 import site.nansan.gateway.dto.Key;
 import site.nansan.gateway.dto.impl.GatewayErrorCode;
-import site.nansan.gateway.dto.impl.JwtKey;
 import site.nansan.gateway.exception.GatewayException;
 
 import javax.crypto.SecretKey;
@@ -20,7 +19,7 @@ public class JwtUtil {
     private final SecretKey JWT_SECRET_KEY;
 
     public JwtUtil(
-            @Value("${spring.jwt.secret}") String secretKey
+            @Value("${token.jwt.secret}") String secretKey
     ) {
 
         JWT_SECRET_KEY = new SecretKeySpec(secretKey.getBytes(

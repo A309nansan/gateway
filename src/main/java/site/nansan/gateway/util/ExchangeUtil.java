@@ -20,10 +20,11 @@ public class ExchangeUtil {
     @SuppressWarnings("unchecked")
     public static <T> T getAttribute(ServerWebExchange exchange, Key key) {
 
-        log.debug("[Exchange] [Method : GET] [Key: {}]", key.getName());
+        T value = (T) Optional.ofNullable(exchange.getAttribute(key.getName()))
+                .orElseThrow(() -> new GatewayException(GatewayErrorCode.NULL_ATTRIBUTE_ERROR));
 
-        return (T) Optional.ofNullable(exchange.getAttribute(key.getName()))
-                .orElseThrow(() -> new GatewayException(GatewayErrorCode.NULL_SERVER_ERROR));
+        log.debug("[Exchange] [Method: GET] [Key: {}] [Value: {}]", key.getName(), value);
+        return value;
     }
 
     /**
@@ -31,31 +32,22 @@ public class ExchangeUtil {
      */
     public static void setAttribute(ServerWebExchange exchange, Key key, Object value) {
 
-        log.debug("[Exchange] [Method : SET] [Key: {}] [Value: {}]", key.getName(), value);
-
+        log.debug("[Exchange] [Method: SET] [Key: {}] [Value: {}]", key.getName(), value);
         exchange.getAttributes().put(key.getName(), value);
     }
 
-    /**
-     * Request Header의 Key 반환
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T getRequestHeader(ServerWebExchange exchange, Key key) {
+    public static String getRequestHeader(ServerWebExchange exchange, Key key) {
 
-        log.debug("[Exchange] [Method : getValue()] [Key: {}]", key.getName());
+        String value = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst(key.getName()))
+                .orElseThrow(() -> new GatewayException(GatewayErrorCode.NULL_HEADER_ERROR));
 
-        return (T) exchange.getRequest().getHeaders().getFirst(key.getName());
+        log.debug("[RequestHeader] [Method: GET] [Key: {}] [Value: {}]", key.getName(), value);
+        return value;
     }
 
-    /**
-     * Request Header의 Key 설정
-     */
     public static ServerWebExchange setRequestHeader(ServerWebExchange exchange, Key key, String value) {
 
-        log.debug("[Exchange] [Method : setValue()] [Key: {}] [Value: {}]", key.getName(), value);
-
-        return exchange.mutate()
-                .request(builder -> builder.header(key.getName(), value))
-                .build();
+        log.debug("[RequestHeader] [Method: SET] [Key: {}] [Value: {}]", key.getName(), value);
+        return exchange.mutate().request(exchange.getRequest().mutate().header(key.getName(), value).build()).build();
     }
 }

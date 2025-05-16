@@ -37,10 +37,10 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
         }
 
         // JWT 존재 여부 확인
-        String jwtWithBearer = (String) Optional.ofNullable(
-                ExchangeUtil.getRequestHeader(exchange, RequestHeaderKey.AUTHORIZATION)).orElseThrow(
-                        () -> new GatewayException(GatewayErrorCode.JWT_VALIDATION_FAILED, "JWT가 존재하지 않습니다.")
-                );
+        String jwtWithBearer = Optional
+                .ofNullable(ExchangeUtil.getRequestHeader(exchange, RequestHeaderKey.AUTHORIZATION))
+                .orElseThrow(() -> new GatewayException(GatewayErrorCode.JWT_VALIDATION_FAILED, "JWT가 존재하지 않습니다.")
+        );
 
         // JWT 형식이 올바른지 확인
         if (!jwtWithBearer.startsWith(BEARER_PREFIX)) {
@@ -48,23 +48,26 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
         }
 
         // JWT 부분만 추출
-        String accessToken = jwtWithBearer.substring("Bearer ".length());
+        String accessToken = jwtWithBearer.substring(BEARER_PREFIX.length());
 
         // JWT 유효성 검증: Error 내부에서 처리
         jwtUtil.validateToken(accessToken);
-
         log.debug("JWT 유효성 검증 성공");
 
-        // JWT Claim 반환: Error 내부에서 처리
-        Long userId = jwtUtil.getClaimValue(accessToken, JwtKey.ID);
-        ExchangeUtil.setAttribute(exchange, ExchangeKey.ID, userId);
+        Long userId = jwtUtil.getClaimValue(accessToken, JwtKey.USER_ID);
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.USER_ID, userId);
 
-        String socialPlatform = jwtUtil.getClaimValue(accessToken, JwtKey.SOCIAL_PLATFORM);
-        ExchangeUtil.setAttribute(exchange, ExchangeKey.SOCIAL_PLATFORM, socialPlatform);
+        String email = jwtUtil.getClaimValue(accessToken, JwtKey.EMAIL);
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.EMAIL, email);
 
+        String nickName = jwtUtil.getClaimValue(accessToken, JwtKey.NICKNAME);
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.NICKNAME, nickName);
 
+        String role = jwtUtil.getClaimValue(accessToken, JwtKey.ROLE);
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.ROLE, role);
 
-        log.debug("요청받은 User Id: {}", userId);
+        Long childId = Long.valueOf(ExchangeUtil.getRequestHeader(exchange, RequestHeaderKey.CHILD_ID));
+        ExchangeUtil.setAttribute(exchange, ExchangeKey.CHILD_ID, childId);
 
         return chain.filter(exchange);
     }

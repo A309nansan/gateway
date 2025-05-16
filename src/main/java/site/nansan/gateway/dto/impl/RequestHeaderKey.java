@@ -9,14 +9,13 @@ import site.nansan.gateway.dto.Key;
 public enum RequestHeaderKey implements Key {
 
     // Standard Header
-
     AUTHORIZATION(HttpHeaders.AUTHORIZATION, String.class),
     USER_AGENT(HttpHeaders.USER_AGENT, String.class),
 
     // Custom Header
-    X_FORWARDED_FOR("X-Forwarded-For", String.class),
-    X_CHILD_ID("X-Child-Id", Long.class),
-
+    CHILD_ID("X-Child-Id", Long.class),
+    SOURCE("X-Source", String.class),
+    PASSPORT("X-Passport", String.class),
     ;
 
     @Getter

@@ -65,5 +65,8 @@ springdoc:
         url: https://nansan.site/api/v1/image/v3/api-docs
     use-root-path: true
 
-passport:
-  secret: ${hmacSecret}
+token:
+  jwt:
+    secret: ${JWT_SECRET_KEY}
+  passport:
+    secret: ${PASSPORT_SECRET_KEY}

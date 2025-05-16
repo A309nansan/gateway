@@ -24,7 +24,6 @@ public class AuthenticationCheckFilter implements GlobalFilter, Ordered {
         if (isPrivatePath(requestPath)) {
 
             log.debug("Private Url 요청: {}", requestPath);
-
             ExchangeUtil.setAttribute(exchange, ExchangeKey.IS_AUTH_REQUIRED, Boolean.TRUE);
             return chain.filter(exchange);
         }
@@ -32,7 +31,6 @@ public class AuthenticationCheckFilter implements GlobalFilter, Ordered {
         if (isPublicPath(requestPath)) {
 
             log.debug("Public Url 요청: {}", requestPath);
-
             ExchangeUtil.setAttribute(exchange, ExchangeKey.IS_AUTH_REQUIRED, Boolean.FALSE);
             return chain.filter(exchange);
         }
@@ -40,7 +38,6 @@ public class AuthenticationCheckFilter implements GlobalFilter, Ordered {
         if (isSwaggerPath(requestPath)) {
 
             log.debug("Swagger Url 요청: {}", requestPath);
-
             ExchangeUtil.setAttribute(exchange, ExchangeKey.IS_AUTH_REQUIRED, Boolean.FALSE);
             return chain.filter(exchange);
         }
@@ -48,7 +45,6 @@ public class AuthenticationCheckFilter implements GlobalFilter, Ordered {
         if (isDetourPath(requestPath)) {
 
             log.debug("Detour Url 요청: {}", requestPath);
-
             ExchangeUtil.setAttribute(exchange, ExchangeKey.IS_AUTH_REQUIRED, Boolean.FALSE);
             return chain.filter(exchange);
         }

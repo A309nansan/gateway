@@ -5,11 +5,13 @@ import lombok.Getter;
 import site.nansan.gateway.dto.Key;
 
 @AllArgsConstructor
-public enum HeaderKey implements Key {
+public enum PassportKey implements Key {
 
-
-    USER_AGENT("User-Agent", String.class),
-    SOURCE("source", String.class),
+    USER_ID("user_id", Long.class),
+    EMAIL("email", String.class),
+    NICKNAME("nickname", String.class),
+    ROLE("role", String.class),
+    CHILD_ID("child_id", Long.class),
 
     ;
 

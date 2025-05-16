@@ -7,8 +7,7 @@ import site.nansan.gateway.dto.Key;
 @AllArgsConstructor
 public enum JwtKey implements Key {
 
-    ID("id", Long.class),
-    SOCIAL_PLATFORM("social_platform", String.class),
+    USER_ID("user_id", Long.class),
     EMAIL("email", String.class),
     NICKNAME("nickname", String.class),
     ROLE("role", String.class),
